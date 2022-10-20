@@ -16,7 +16,7 @@ from decimal import Decimal
 
 def scrape_and_store(api, api_key, cuisine_type, location):
     #count=0
-    file=open(cuisine_type+".txt",'w')
+    #file=open(cuisine_type+".txt",'w')
     dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
     table = dynamodb.Table('yelp-restaurants')
     offset=0
@@ -31,7 +31,7 @@ def scrape_and_store(api, api_key, cuisine_type, location):
         response_businesses=requests.get(api,parameters,headers=headers).json()
         # count=count+len(response_businesses['businesses'])
         # print(count)
-        file.write(json.dumps(response_businesses)+"\n\nsure\n"+cuisine_type+"\n")
+        #file.write(json.dumps(response_businesses)+"\n\nsure\n"+cuisine_type+"\n")
         for business in response_businesses['businesses']:
             try:
                 table.put_item(
@@ -53,7 +53,7 @@ def scrape_and_store(api, api_key, cuisine_type, location):
                 )
             except ClientError as e:
                 print(e.response['Error']['Code'])
-    file.close()
+    #file.close()
     return True
 
 if __name__=='__main__':
